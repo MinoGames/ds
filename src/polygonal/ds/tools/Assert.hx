@@ -32,7 +32,10 @@ class Assert
 {
 	macro public static function assert(predicateExpr:Expr, ?msgExpr:Expr):Expr
 	{
-		if (!Context.defined("debug")) return macro {};
+		#if openfl
+        return macro {};
+        #else
+        if (!Context.defined("debug")) return macro {};
 		
 		switch (Context.typeof(predicateExpr))
 		{
@@ -86,5 +89,6 @@ class Assert
 				{expr: EThrow(macro $v{"Assertion failed:"} + ${infos}), pos: p}, null),
 				pos: p};
 		}
+        #end
 	}
 }
